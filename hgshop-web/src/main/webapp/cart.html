@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>商城首页</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/custom.css" type="text/css" />
+		<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+		
+		<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript"></script>
+	
+	<script src="js/custom.js"></script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+
+			<!-- 登录 注册 购物车... -->
+<div class="container-fluid">
+	<div class="col-md-4">
+		
+	</div>
+	<div class="col-md-5">
+		
+	</div>
+	<div class="col-md-3" style="padding-top:20px">
+		<ol class="list-inline">
+			<li><a href="login.html">登录</a></li>
+			<li><a href="register.html">注册</a></li>
+			<li><a href="cart.html">购物车</a></li>
+			<li><a href="order_list.html">我的订单</a></li>
+		</ol>
+	</div>
+</div>
+
+<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<a href="index.html"> 
+					<img alt="Shopholic" src="img/logo.png">
+				</a>
+			</div>
+			<div class="col-md-6">
+				<form>
+					<div>
+						<input id="search" type="text" width="100%" class="form-control" placeholder="Search" onkeyup="searchWord(this)">
+						<!--<div id="showDiv" style="display:none; position:absolute;z-index:1000;background:#fff; width:179px;border:1px solid #ccc;">
+						</div>-->
+					</div>
+					<button class="search-btn"></button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<!-- 导航条 -->
+<div class="container-fluid"  style="margin-top:30px">
+				
+	<nav class="navbar" style="margin-bottom:0">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="col-md-3">
+				<div class="sidebar-menu-dropdown">
+					<a class="btn-sidebar-menu-dropdown"> 分类 <i
+						class="fa fa-bars" style="float:right"></i></a>
+					<div id="cat" class="cat-dropdown">
+						<div class="sidebar-contant">
+											<div id="menu" class="navbar-collapse collapse">
+												<ul class="nav navbar-nav ">
+													<li class="level sub-megamenu"><span
+														class="opener plus"></span> <a href="shop.html"><i class="fa fa-desktop"></i>
+															Electronics</a>
+														<div class="megamenu"
+															style="width: 430px;">
+															<div class="megamenu-inner-top">
+																<ul class="sub-menu-level1">
+																	<li class="level2"><a href="shop.html"><span>Kids
+																				Fashion</span></a>
+																		<ul class="sub-menu-level2 ">
+																			<li class="level3"><a href="shop.html"><span>■</span>Blazer
+																					& Coat</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sport
+																					Shoes</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Trousers</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Purse</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Wallets</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Skirts</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Tops</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sleepwear</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Jeans</a></li>
+																		</ul></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="level"><a href="shop.html"
+														class="page-scroll"><i class="fa fa-bed"></i> Home &
+															Furniture</a></li>
+													<li class="level"><a href="shop.html"
+														class="page-scroll"> <i class="fa fa-female"></i>
+															Cloths Fashion
+													</a></li>
+													<li class="level sub-megamenu"><span
+														class="opener plus"></span> <a href="shop.html"
+														class="page-scroll"><i class="fa fa-heartbeat"></i>Beauty
+															& Health</a>
+														<div class="megamenu mobile-sub-menu"
+															style="width: 775px;">
+															<div class="megamenu-inner-top">
+																<ul class="sub-menu-level1">
+																	<li class="level2"><a href="shop.html"><span>Men
+																				Fashion</span></a>
+																		<ul class="sub-menu-level2">
+																			<li class="level3"><a href="shop.html"><span>■</span>Dresses</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sport
+																					Jeans</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Skirts</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Tops</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sleepwear</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Jeans</a></li>
+																		</ul></li>
+																	<li class="level2"><a href="shop.html"><span>Women
+																				Fashion</span></a>
+																		<ul class="sub-menu-level2 ">
+																			<li class="level3"><a href="shop.html"><span>■</span>Blazer
+																					& Coat</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sport
+																					Shoes</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Phone
+																					Cases</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Trousers</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Purse</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Wallets</a></li>
+																		</ul></li>
+																	<li class="level2 d-none d-lg-block">
+																		<div class="menu-banner">
+																			<a href="shop.html"> <img
+																				src="images/drop_banner.jpg" alt="Shopholic">
+																			</a>
+																		</div>
+																	</li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="level"><a href="shop.html"
+														class="page-scroll"> <i class="fa fa-child"></i>Kid’s
+															& Baby Toy’s
+															
+													</a></li>
+													<li class="level sub-megamenu "><span
+														class="opener plus"></span> <a href="shop.html"
+														class="page-scroll"><i class="fa fa-car"></i>Automotive</a>
+														<div class="megamenu mobile-sub-menu"
+															style="width: 630px;">
+															<div class="megamenu-inner-top">
+																<ul class="sub-menu-level1">
+																	<li class="level2"><a href="shop.html"><span>Women
+																				Clothings</span></a>
+																		<ul class="sub-menu-level2">
+																			<li class="level3"><a href="shop.html"><span>■</span>Dresses</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sport
+																					Jeans</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Skirts</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Tops</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sleepwear</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Jeans</a></li>
+																		</ul></li>
+																	<li class="level2"><a href="shop.html"><span>Men
+																				Clothings</span></a>
+																		<ul class="sub-menu-level2 ">
+																			<li class="level3"><a href="shop.html"><span>■</span>Blazer
+																					& Coat</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sport
+																					Shoes</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Phone
+																					Cases</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Trousers</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Purse</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Wallets</a></li>
+																		</ul></li>
+																	<li class="level2"><a href="shop.html"><span>Juniors
+																				kid</span></a>
+																		<ul class="sub-menu-level2 ">
+																			<li class="level3"><a href="shop.html"><span>■</span>Blazer
+																					& Coat</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Sport
+																					Shoes</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Phone
+																					Cases</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Trousers</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Purse</a></li>
+																			<li class="level3"><a href="shop.html"><span>■</span>Wallets</a></li>
+																		</ul></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="level"><a href="shop.html"
+														class="page-scroll"><i class="fa fa-futbol-o"></i>Sports
+															& Outdoors</a></li>
+													<li class="level "><a href="shop.html"
+														class="page-scroll"><i class="fa fa-tablet"></i>Appliances</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+					</div>
+				</div>
+				<!--<a class="navbar-brand" href="#">首页</a>-->
+			</div>
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="product_list.html">手机数码<span class="sr-only">(current)</span></a></li>
+					<li><a href="#">电脑办公</a></li>
+					<li><a href="#">电脑办公</a></li>
+					<li><a href="#">电脑办公</a></li>
+				</ul>
+				<!-- 完成异步搜索 -->
+				<script type="text/javascript">
+				
+					function overFn(obj){
+						$(obj).css("background","#DBEAF9");
+					}
+					function outFn(obj){
+						$(obj).css("background","#fff");
+					}
+					
+					function clickFn(obj){
+						$("#search").val($(obj).html());
+						$("#showDiv").css("display","none");
+					}
+					
+				
+					function searchWord(obj){
+						//1、获得输入框的输入的内容
+						var word = $(obj).val();
+						//2、根据输入框的内容去数据库中模糊查询---List<Product>
+						var content = "";
+						$.post(
+							"searchWord",
+							{"word":word},
+							function(data){
+								//3、将返回的商品的名称 现在showDiv中
+								//[{"pid":"1","pname":"小米 4c 官方版","market_price":8999.0,"shop_price":8999.0,"pimage":"products/1/c_0033.jpg","pdate":"2016-08-14","is_hot":1,"pdesc":"小米 4c 标准版 全网通 白色 移动联通电信4G手机 双卡双待 官方好好","pflag":0,"cid":"1"}]
+								
+								if(data.length>0){
+									for(var i=0;i<data.length;i++){
+										content+="<div style='padding:5px;cursor:pointer' onclick='clickFn(this)' onmouseover='overFn(this)' onmouseout='outFn(this)'>"+data[i]+"</div>";
+									}
+									$("#showDiv").html(content);
+									$("#showDiv").css("display","block");
+								}
+								
+							},
+							"json"
+						);
+						
+					}
+				</script>
+			</div>
+		</div>
+	</nav>
+</div>
+
+		<div class="container-fluid" style="margin:5px 15px">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>购物车 2</h2>
+				</div>
+			</div>
+			<div class="row cart_list_header">
+				<div class="col-md-1"><input type="checkbox" id="ck">全选</div>
+				<div class="col-md-4">商品</div>
+				<div class="col-md-2">单价</div>
+				<div class="col-md-2">数量</div>
+				<div class="col-md-2">小计</div>
+				<div class="col-md-1">操作</div>
+			</div>
+			<div class="row cart_list">
+				<div class="col-md-1"><input type="checkbox" class="cbk"></div>
+				<div class="col-md-4">
+					<div><img src="img/1.jpg" width="80px" height="80px" style="float:left"/></div>
+					<div><div class="p-name">11111111111111111111111111111111111111111111111111111111111111111111</div></div>
+				</div>
+				<div class="col-md-2"><span class="price">￥11</span></div>
+				<div class="col-md-2">
+					<div class="custom-qty">
+						<button
+							onclick="decrement();"
+							class="reduced items" type="button">
+							<i class="fa fa-minus"></i>
+						</button>
+						<input type="text" class="input-text qty" title="Qty"
+							value="1" maxlength="8" id="qty" name="qty">
+						<button
+							onclick="increment();"
+							class="increase items" type="button">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="col-md-2"><span class="sub-price">￥11</span></div>
+				<div class="col-md-1">删除</div>
+			</div>
+			
+			<div class="row cart_list">
+				<div class="col-md-1"><input type="checkbox" class="cbk"></div>
+				<div class="col-md-4">
+					<div><img src="img/1.jpg" width="80px" height="80px" style="float:left"/></div>
+					<div><div class="p-name">11111111111111111111111111111111111111111111111111111111111111111111</div></div>
+				</div>
+				<div class="col-md-2"><span class="price">￥11</span></div>
+				<div class="col-md-2">
+					<div class="custom-qty">
+						<button
+							onclick="decrement();"
+							class="reduced items" type="button">
+							<i class="fa fa-minus"></i>
+						</button>
+						<input type="text" class="input-text qty" title="Qty"
+							value="1" maxlength="8" id="qty" name="qty">
+						<button
+							onclick="increment();"
+							class="increase items" type="button">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="col-md-2"><span class="sub-price">￥11</span></div>
+				<div class="col-md-1">删除</div>
+			</div>
+			
+			<div class="row cart_list_footer">
+				<div class="col-md-4">
+					<span><input type="checkbox" id="ck1">全选</span>
+					<span><a>删除选中商品</a></span>
+					<span><a>清理购物车</a></span>
+				</div>
+				<div class="col-md-8">
+					<span style="float:right" class="jiesuan"><a href="javascript:void(0)" class="submit-btn">去结算</a></span>
+					<span style="float:right">总价: <span style="color:red">￥45.00</span></span>
+					<span style="float:right">已选择<span style="color:red">1</span>件商品</span>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+			
+	<div style="text-align: center;margin-top: 30px;">
+		<ul class="list-inline">
+			<li><a href="info.html">关于我们</a></li>
+			<li><a>联系我们</a></li>
+			<li><a>招贤纳士</a></li>
+			<li><a>法律声明</a></li>
+			<li><a>友情链接</a></li>
+			<li><a>支付方式</a></li>
+			<li><a>配送方式</a></li>
+			<li><a>服务声明</a></li>
+			<li><a>广告声明</a></li>
+		</ul>
+	</div>
+	<div style="text-align: center;margin-top: 5px;margin-bottom:20px;">
+		Copyright &copy; 2019 八维1706E 版权所有
+	</div>
+</div>
+			
+		</div>
+	</body>
+
+</html>

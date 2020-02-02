@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.SkuMapper">
+
+	<resultMap type="sku" id="skuMap">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="sell_point" property="sellPoint" />
+		<result column="price" property="price" />
+		<result column="stock_count" property="stockCount" />
+		<result column="barcode" property="barcode" />
+		<result column="image" property="image" />
+		<result column="status" property="status" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="cost_price" property="costPrice" />
+		<result column="market_price" property="marketPrice" />
+		<result column="spu_id" property="spuId" />
+		<result column="cart_thumbnail" property="cartThumbnail" />
+		<collection property="skuSpec" javaType="list" ofType="skuSpec">
+			<id column="ks_id" property="id"/>
+			<result column="spec_id" property="specId"/>
+			<result column="spec_option_id" property="specOptionId"/>
+			<result column="spec_name" property="specName"/>
+			<result column="option_name" property="specOptionName"/>
+		</collection>
+	</resultMap>
+
+	<insert id="insertSku" useGeneratedKeys="true" keyProperty="id">
+		insert into hg_sku(title,sell_point,price,stock_count,barcode,image,status,create_time,update_time,cost_price,market_price,spu_id) 
+		values (#{title},#{sellPoint},#{price},#{stockCount},#{barcode},#{image},#{status},#{createTime},#{updateTime},#{costPrice},#{marketPrice},#{spuId})
+	</insert>
+	
+	<insert id="insertSkuSpec">
+		insert into hg_sku_spec(sku_id,spec_id,spec_option_id) values (#{skuId},#{specId},#{specOptionId})
+	</insert>
+	
+	<update id="updateSku">
+		update hg_sku set 
+		<if test="title!=null and title!=''">
+			title=#{title},
+		</if>
+		<if test="sellPoint!=null and sellPoint!=''">
+			sell_point=#{sellPoint},
+		</if>
+		<if test="price!=null">
+			price=#{price},
+		</if>
+		<if test="stockCount!=null">
+			stock_count=#{stockCount},
+		</if>
+		<if test="barcode!=null and barcode!=''">
+			barcode=#{barcode},
+		</if>
+		<if test="image!=null and image!=''">
+			image=#{image},
+		</if>
+		<if test="status!=null and status!=''">
+			status=#{status},
+		</if>
+		<if test="updateTime!=null">
+			update_time=#{updateTime},
+		</if>
+		<if test="costPrice!=null">
+			cost_price=#{costPrice},
+		</if>
+		<if test="marketPrice!=null">
+			market_price=#{marketPrice},
+		</if>
+		<if test="cartThumbnail!=null and cartThumbnail!=''">
+			cart_thumbnail=#{cartThumbnail},
+		</if>
+		<if test="spuId!=null">
+			spu_id=#{spuId}
+		</if>
+		where id=#{id}
+	</update>
+
+	<update id="updateSkuSpec">
+		update hg_sku_spec set sku_id=#{skuId},spec_id=#{specId},spec_option_id=#{specOptionId} where id=#{id}
+	</update>
+
+	<select id="selectSkuById" resultMap="skuMap">
+		select s.*,ks.id ks_id,ks.spec_id,ks.spec_option_id from hg_sku s left join hg_sku_spec ks on s.id=ks.sku_id where s.id=#{id}
+	</select>
+	
+	<select id="selectSkuList" resultType="sku">
+		select id,image,title,price,status,stock_count from hg_sku
+		<where>
+			<if test="title!=null and title!=''">
+				and title like concat('%',#{title},'%')
+			</if>
+			<if test="sellPoint!=null and sellPoint!=''">
+				and sell_point like concat('%',#{sellPoint},'%')
+			</if>
+		</where>
+	</select>
+	
+	<delete id="deleteSkuByIds">
+		delete from hg_sku where id in
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteSkuSpecBySkuIds">
+		delete from hg_sku_spec where sku_id in
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+	
+	
+	
+	
+	<select id="selectNews" resultType="sku">
+		select id,title,price,image from hg_sku group by spu_id order by create_time desc limit #{num}
+	</select>
+	
+	
+	<select id="selectSkusBySpuId" resultType="sku">
+		select id,title,image,price from hg_sku where spu_id=#{spuId}
+	</select>
+	
+	
+	
+</mapper>

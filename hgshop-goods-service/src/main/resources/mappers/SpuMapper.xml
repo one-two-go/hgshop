@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.SpuMapper">
+
+	<insert id="insertSpu" useGeneratedKeys="true" keyProperty="id">
+		insert into hg_spu(goods_name,is_marketable,brand_id,caption,category_id,small_pic) 
+		values (#{goodsName},#{isMarketable},#{brandId},#{caption},#{categoryId},#{smallPic})
+	</insert>
+	
+	<update id="updateSpu">
+		update hg_spu set 
+		<if test="goodsName!=null and goodsName!=''">
+			goods_name=#{goodsName},
+		</if>
+		<if test="caption!=null and caption!=''">
+			caption=#{caption},
+		</if>
+		<if test="brandId!=null">
+			brand_id=#{brandId},
+		</if>
+		<if test="categoryId!=null">
+			category_id=#{categoryId},
+		</if>
+		<if test="smallPic!=null and smallPic!=''">
+			small_pic=#{smallPic},
+		</if>
+		<if test="isMarketable!=null and isMarketable!=''">
+			is_marketable=#{isMarketable}
+		</if>
+		where id=#{id}
+	</update>
+
+	<select id="selectSpuById" resultType="spu">
+		select s.*,c.name cName, b.name bName from hg_spu s join hg_category c on s.category_id=c.id join hg_brand b on s.brand_id=b.id where s.id=#{id}
+	</select>
+	
+	<select id="selectSpus" resultType="spu">
+		select id,goods_name from hg_spu
+	</select>
+	
+	<select id="selectSpuList" resultType="spu">
+		select s.id,s.goods_name,s.is_marketable,b.name b_name,c.name c_name,s.small_pic
+		from hg_spu s join hg_brand b on s.brand_id=b.id join hg_category c on s.category_id=c.id
+		<where>
+			<if test="categoryId!=null">
+				and s.category_id=#{categoryId}
+			</if>
+			<if test="goodsName!=null and goodsName!=''">
+				and s.goods_name like concat('%',#{goodsName},'%')
+			</if>
+			<if test="caption!=null and caption!=''">
+				and s.caption like concat('%',#{caption},'%')
+			</if>
+		</where>		
+	</select>
+	
+	<delete id="deleteSpuByIds">
+		delete from hg_spu where id in
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="selectSpuIdsBySearch" resultType="int">
+		SELECT p.id
+		FROM hg_sku k JOIN hg_spu p ON k.spu_id=p.id
+		LEFT JOIN hg_category c1 ON p.category_id=c1.id 
+		LEFT JOIN hg_category c2 ON c1.parent_id=c2.id 
+		LEFT JOIN hg_category c3 ON c2.parent_id=c3.id 
+		LEFT JOIN hg_brand b ON p.brand_id=b.id
+		LEFT JOIN hg_sku_spec ks on k.id=ks.sku_id
+		<!-- <if test="optionIds!=null">
+		<foreach collection="optionIds" index="i">
+			LEFT JOIN hg_sku_spec ks${i} ON k.id=ks${i}.sku_id
+		</foreach>
+		</if> -->
+		<where>
+			<if test="goodsName!=null and goodsName!=''">
+				and (k.title like concat('%',#{goodsName},'%') or p.goods_name like concat('%',#{goodsName},'%') or c1.name like concat('%',#{goodsName},'%') or c2.name like concat('%',#{goodsName},'%') or c3.name like concat('%',#{goodsName},'%') or b.name like concat('%',#{goodsName},'%'))
+			</if>
+			<!-- <if
+				test="startPrice!=null and startPrice!=0 and endPrice!=null and endPrice!=0 ">
+				and k.price between #{startPrice} and #{endPrice}
+			</if> -->
+			<if test="brandId!=null">
+				and b.id =#{brandId}
+			</if>
+			<if test="categoryId!=null">
+				and c1.id =#{categoryId}
+			</if>
+			<if test="optionId!=null">
+				and ks.spec_option_id=#{optionId}
+			</if>
+			<!-- <if test="optionIds!=null and optionIds.size()>0">
+			<foreach collection="optionIds" index="i" item="subList">
+				and ks${i}.spec_option_id in 
+				<foreach collection="subList" open="(" close=")" separator="," item="optionId">
+					#{optionId}
+				</foreach>
+			</foreach>
+			</if> -->
+		</where>
+	</select>
+	
+	
+	<select id="selectSpuByIds" resultType="spu">
+		select p.id,p.brand_id,p.category_id
+		from hg_spu p
+		where p.id in
+		<foreach collection="list" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</select>
+	
+	<select id="selectCategoryBySpuIds" resultType="category">
+		select distinct c.id,c.name
+		from hg_category c join hg_spu p on c.id=p.category_id
+		where p.id in
+		<foreach collection="list" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</select>
+	
+	<select id="selectBrandBySpuIds" resultType="brand">
+		select distinct b.id,b.name
+		from hg_brand b join hg_spu p on b.id=p.brand_id
+		where p.id in
+		<foreach collection="list" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</select>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    
+	<!-- 配置redis的配置 -->
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:use-pool="true" p:port="6379" p:hostName="127.0.0.1" />
+
+
+	<!-- 声明bean对象 redis string的序列化 -->
+	<bean id="stringRedisSerializer"
+		class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+
+	<!-- 声明bean对象 json序列化方式 -->
+	<bean id="genericJackson2JsonRedisSerializer"
+		class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+
+
+	<!-- 声明bean对象 jdk 序列化方式 -->
+	<bean id="jdkSerializationRedisSerializer"
+		class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+
+
+
+
+	<!-- 配置一个redis模板对象 -->
+	<bean id="redisTemplate"
+		class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnectionFactory">
+		<property name="keySerializer" ref="stringRedisSerializer" />
+		<!-- 只修改value -->
+		<property name="valueSerializer"
+			ref="jdkSerializationRedisSerializer" />
+
+		<!-- 配置hash的key与value的序列化方式 -->
+		<property name="hashKeySerializer"
+			ref="stringRedisSerializer" />
+		<property name="hashValueSerializer"
+			ref="jdkSerializationRedisSerializer" />
+	</bean>
+
+</beans>

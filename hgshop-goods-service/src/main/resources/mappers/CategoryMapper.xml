@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.CategoryMapper">
+
+	<insert id="insertCategory" useGeneratedKeys="true" keyProperty="id">
+		insert into hg_category(name,parent_id) values (#{name},#{parentId})
+	</insert>
+	
+	<update id="updateCategory">
+		update hg_category set name=#{name},parent_id=#{parentId} where id=#{id}
+	</update>
+	
+	<select id="getChildCategoryCount" resultType="int">
+		select count(0) from hg_category where parent_id=#{id}
+	</select>
+	
+	<delete id="deleteCategoryById">
+		delete from hg_category where id=#{id}
+	</delete>
+	
+	<resultMap type="category" id="categoryMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<collection property="childs" javaType="arrayList" ofType="Category">
+			<id column="c2_id" property="id"/>
+			<result column="c2_name" property="name"/>
+			<collection property="childs" javaType="arrayList" ofType="Category">
+				<id column="c3_id" property="id"/>
+				<result column="c3_name" property="name"/>
+			</collection>
+		</collection>
+	</resultMap>
+	
+	<select id="selectAllCategories" resultMap="categoryMap">
+		select c1.id,c1.name,c2.id c2_id,c2.name c2_name,c3.id c3_id, c3.name c3_name from hg_category c1 left join hg_category c2 on c1.id=c2.parent_id left join hg_category c3 on c2.id=c3.parent_id where c1.parent_id=0
+	</select>
+	
+	<select id="selectCategoryList" resultType="category">
+		select c1.id,c1.name,c2.name parentName from hg_category c1 left join hg_category c2 on c1.parent_id=c2.id
+		<where>
+			<if test="name!=null and name!=''">
+				and c1.name like concat('%',#{name},'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCategoryById" resultType="category">
+		select c1.id,c1.name,c1.parent_id,c2.name parentName from hg_category c1 left join hg_category c2 on c1.parent_id=c2.id where c1.id=#{id}
+	</select>
+	
+	
+	<select id="selectCategoryNamesByThreeCategoryId" resultType="string">
+		select concat_ws(' ',c1.name,c2.name,c3.name) names
+		from hg_category c1 join hg_category c2 on c2.parent_id=c1.id
+		join hg_category c3 on c3.parent_id=c2.id
+		 where c3.id=#{id}
+	</select>
+	
+	<select id="selectCategoryByIds" resultType="category">
+		select * from hg_category where id in
+		<foreach collection="list" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</select>
+</mapper>

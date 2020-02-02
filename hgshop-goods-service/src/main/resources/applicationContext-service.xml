@@ -1,0 +1,61 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo 
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!--5、 配置jdbc事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!--配置事务 transaction-manager:表示关联的事务管理器是谁 -->
+	<tx:advice transaction-manager="transactionManager"
+		id="txAdvice">
+		<!-- 事务属性配置 -->
+		<tx:attributes>
+			<!-- 以find.select get开头的方法为只读事务，用来提高数据库的性能 -->
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="list*" read-only="true" />
+			<!-- 其他的方法为默认事务 -->
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 7、配置aop -->
+	<aop:config>
+		<!-- 配置切点表达式 -->
+		<aop:pointcut
+			expression="execution(* com.bawei.hgshop.service.*.*(..))"
+			id="pointcut" />
+		<!-- 关联事务 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" />
+	</aop:config>
+
+
+
+
+	<!-- 应用程序 -->
+	<dubbo:application name="hgshop-goods-service" />
+	<!-- 注册中心 采用zookeeper -->
+	<!-- <dubbo:registry
+		address="zookeeper://192.168.73.129:2181" /> -->
+	<!-- 直连 -->
+	<dubbo:registry address="N/A" />
+	<!-- 通讯协议 -->
+	<dubbo:protocol name="dubbo" port="20890" />
+	<!-- 注解扫描配置 指定了扫描的包 -->
+	<dubbo:annotation
+		package="com.bawei.hgshop.service.impl" />
+</beans>

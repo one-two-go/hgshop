@@ -1,0 +1,286 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.bw.hgshop</groupId>
+  <artifactId>hgshop-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <!-- 定义主要版本号 -->
+	<properties>
+		<spring.version>5.1.5.RELEASE</spring.version>
+		<mybatis.version>3.4.2</mybatis.version>
+		<mybatis.spring.version>1.3.0</mybatis.spring.version>
+		<pagehelper-version>5.1.2</pagehelper-version>
+		<druid.version>1.0.9</druid.version>
+		<mysql.version>5.1.6</mysql.version>
+		<aspectj-version>1.8.0</aspectj-version>
+		
+		<dubbo.version>2.7.3</dubbo.version>
+		
+		<log4j.version>1.2.17</log4j.version>
+		<jackson.version>2.9.1</jackson.version>
+		<jstl.version>1.2</jstl.version>
+		<servlet-api.version>2.5</servlet-api.version>
+		<jsp-api.version>2.2</jsp-api.version>
+		
+		<commons-lang3.version>3.3.2</commons-lang3.version>
+		<commons-io.version>1.3.1</commons-io.version>
+		<commons-net.version>3.3</commons-net.version>
+		<commons-fileupload.version>1.3.1</commons-fileupload.version>
+		
+		<junit-version>4.12</junit-version>
+		
+		<ik.version>2012_u6</ik.version>
+		<lucene.version>7.2.1</lucene.version>
+		<spring-data-elasticsearch.version>3.1.5.RELEASE</spring-data-elasticsearch.version>
+		<!-- <kafka.version>0.8.2.1</kafka.version> -->
+		<kafka.version>2.1.0</kafka.version>
+		<spring-kafka.version>2.2.4.RELEASE</spring-kafka.version>
+		<jedis.version>2.9.0</jedis.version>
+		<spring-data-redis.version>2.1.5.RELEASE</spring-data-redis.version>
+	</properties>
+
+	<dependencyManagement>
+
+		<dependencies>
+			<!-- 引入dubbo的依赖配置 -->
+			<dependency>
+				<groupId>org.apache.dubbo</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>${dubbo.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>org.springframework</artifactId>
+						<groupId>spring</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.dubbo</groupId>
+				<artifactId>dubbo-dependencies-zookeeper</artifactId>
+				<version>${dubbo.version}</version>
+				<type>pom</type>
+			</dependency>
+			<!-- spring-webmvc依赖 -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- spring-jdbc依赖 -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- spring-tx 事务依赖 -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- 引入spring-test依赖 -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- mybatis核心包 -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+			<!-- mybatis-spring 整合jar -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>${mybatis.spring.version}</version>
+			</dependency>
+			<!-- druid数据源 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+			<!-- Mysql数据库驱动包 -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+			<!-- 日志文件管理包 -->
+			<!-- log start -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<!-- 单元测试 -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- 上传组件包 -->
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>${commons-fileupload.version}</version>
+			</dependency>
+			<!-- common-io依赖 -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			<!-- 引入jstl依赖 -->
+			<dependency>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${jstl.version}</version>
+			</dependency>
+			<!-- 引入jsp-api依赖 -->
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>${jsp-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- 引入jackson的依赖 -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- 依赖的公共包 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+
+			<!-- 引入org.aspectj依赖 -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectj-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj-version}</version>
+			</dependency>
+			<!-- 引入mybaits pagehelper分页助手依赖 -->
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper</artifactId>
+				<version>${pagehelper-version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<!-- 加入ik分词器 -->
+			<dependency>
+				<groupId>com.janeluo</groupId>
+				<artifactId>ikanalyzer</artifactId>
+				<version>${ik.version}</version>
+				<!-- 排除自带的lucene操作 -->
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.lucene</groupId>
+						<artifactId>lucene-queries</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.lucene</groupId>
+						<artifactId>lucene-queryparser</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-elasticsearch</artifactId>
+				<version>${spring-data-elasticsearch.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-redis</artifactId>
+				<version>${spring-data-redis.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka_2.12</artifactId>
+				<version>${kafka.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>jmxri</artifactId>
+						<groupId>com.sun.jmx</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jms</artifactId>
+						<groupId>javax.jms</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jmxtools</artifactId>
+						<groupId>com.sun.jdmk</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.kafka</groupId>
+				<artifactId>spring-kafka</artifactId>
+				<version>${spring-kafka.version}</version>
+			</dependency>
+			
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+			</plugins>
+		</pluginManagement>
+		
+	</build>
+	<modules>
+		<module>hgshop-goods-interface</module>
+		<module>hgshop-goods-service</module>
+		<module>hgshop-manage</module>
+		<module>hgshop-web</module>
+	</modules>
+</project>

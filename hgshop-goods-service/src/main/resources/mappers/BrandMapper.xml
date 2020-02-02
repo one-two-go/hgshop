@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.BrandMapper">
+	<insert id="insertBrand">
+		insert into hg_brand(name,first_char,deleted_flag) values (#{name},#{firstChar},#{deletedFlag})
+	</insert>
+	
+	<update id="updateBrand">
+		update hg_brand set name=#{name},first_char=#{firstChar} where id=#{id}
+	</update>
+	
+	<select id="selectBrandById" resultType="brand">
+		select id,name,first_char,deleted_flag from hg_brand where id=#{id}
+	</select>
+	
+	<select id="selectBrandList" resultType="brand">
+		select id,name,first_char,deleted_flag from hg_brand
+		<where>
+			<if test="name != null and name != ''">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="firstChar != null and firstChar != ''">
+				and first_char like concat('%',#{firstChar},'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectAllBrands" resultType="brand">
+		select id,name from hg_brand where deleted_flag=0
+	</select>
+	
+	<update id="deleteBrandByIds">
+		update hg_brand set deleted_flag=1 where id in
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</update>
+	
+	<select id="selectBrandByIds" resultType="brand">
+		select * from hg_brand where id in
+		<foreach collection="list" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</select>
+</mapper>

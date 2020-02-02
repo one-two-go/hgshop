@@ -1,0 +1,5 @@
+.settings/
+.project
+hgshop-*/.settings/
+hgshop-*/.classpath
+hgshop-*/.project
