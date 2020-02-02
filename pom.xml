@@ -7,7 +7,7 @@
   
   <!-- 定义主要版本号 -->
 	<properties>
-		<spring.version>5.1.5.RELEASE</spring.version>
+		<spring.version>5.2.3.RELEASE</spring.version>
 		<mybatis.version>3.4.2</mybatis.version>
 		<mybatis.spring.version>1.3.0</mybatis.spring.version>
 		<pagehelper-version>5.1.2</pagehelper-version>
