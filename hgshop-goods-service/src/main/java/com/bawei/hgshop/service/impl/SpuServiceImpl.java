@@ -195,7 +195,7 @@ public class SpuServiceImpl implements SpuService {
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
 
         //通过sourceFilter字段过滤只要我们需要的数据
-        queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{"id", "skus"}, null));
+        queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{"id", "title", "skus"}, null));
 
         //分页
         queryBuilder.withPageable(PageRequest.of(pageNum-1, pageSize));
@@ -232,9 +232,9 @@ public class SpuServiceImpl implements SpuService {
 			}
 
 			basicQuery.must(QueryBuilders.multiMatchQuery(keyword, fieldNames));
-			queryBuilder.withQuery(basicQuery)
-			.withHighlightFields(highlightFields);
+			queryBuilder.withHighlightFields(highlightFields);
         }
+        queryBuilder.withQuery(basicQuery);
         //对分类和品牌聚合
         String categoryAggName = "categoryAgg";
         queryBuilder.addAggregation(AggregationBuilders.terms(categoryAggName).field("categoryId"));
@@ -250,39 +250,45 @@ public class SpuServiceImpl implements SpuService {
         }
         
         //查询，获取结果
-        result = template.queryForPage(queryBuilder.build(), ESSpu.class, new SearchResultMapper() {
+        if (StringUtils.isNotEmpty(keyword)) {
+        	result = template.queryForPage(queryBuilder.build(), ESSpu.class, new SearchResultMapper() {
 
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
-				long total = 0l;
-				List<T> content = new ArrayList<>();
-				
-				SearchHits searchHits = response.getHits();
-				if (searchHits != null) {
-					//获取总记录数
-					total = searchHits.getTotalHits();
-					// 获取结果数组
-					SearchHit[] hits = searchHits.getHits();
-					// 判断结果
-					if (hits != null && hits.length > 0) {
-						// 遍历结果
-						for (SearchHit hit : hits) {
-							Gson gson = new Gson();
-							ESSpu spu = gson.fromJson(hit.getSourceAsString(), ESSpu.class);
-							
-							Map<String, HighlightField> highlightFields = hit.getHighlightFields();
-							HighlightField title = highlightFields.get("title");
-							Text[] fragments = title.fragments();
-							spu.setTitle(fragments[0].toString());
-
-							content.add((T)spu);
-						}
-					}
-				}
-				return new AggregatedPageImpl<T>(content, pageable, total, response.getAggregations());
-			}
-		});
+    			@SuppressWarnings("unchecked")
+    			@Override
+    			public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
+    				long total = 0l;
+    				List<T> content = new ArrayList<>();
+    				
+    				SearchHits searchHits = response.getHits();
+    				if (searchHits != null) {
+    					//获取总记录数
+    					total = searchHits.getTotalHits();
+    					// 获取结果数组
+    					SearchHit[] hits = searchHits.getHits();
+    					// 判断结果
+    					if (hits != null && hits.length > 0) {
+    						// 遍历结果
+    						for (SearchHit hit : hits) {
+    							Gson gson = new Gson();
+    							ESSpu spu = gson.fromJson(hit.getSourceAsString(), ESSpu.class);
+    							
+    							Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+    							HighlightField title = highlightFields.get("title");
+    							if (title != null) {
+    								Text[] fragments = title.fragments();
+    								spu.setTitle(fragments[0].toString());
+    							}
+    							content.add((T)spu);
+    						}
+    					}
+    				}
+    				return new AggregatedPageImpl<T>(content, pageable, total, response.getAggregations());
+    			}
+    		});
+        } else {
+        	result = template.queryForPage(queryBuilder.build(), ESSpu.class);
+        }
+        
      	
         
         
@@ -343,11 +349,14 @@ public class SpuServiceImpl implements SpuService {
         		} else {
         			start += 2;
         		}
-        		int end = title.indexOf("</font>") + title.substring(title.indexOf("</font>")).indexOf("^A");
-        		if (end != -1) {
-        			title = title.substring(start, end);
-        			item.setTitle(title);
+        		int end = title.substring(title.indexOf("</font>")).indexOf("^A");
+        		if (end == -1) {
+        			end = title.length();
+        		} else {
+        			end += title.indexOf("</font>");
         		}
+    			title = title.substring(start, end);
+    			item.setTitle(title);
         	}
         });
         
