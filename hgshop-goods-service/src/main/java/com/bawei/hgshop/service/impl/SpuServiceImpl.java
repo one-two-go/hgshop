@@ -151,7 +151,7 @@ public class SpuServiceImpl implements SpuService {
         //3.查询商品品牌
         Brand brand = brandMapper.selectBrandById(spu.getBrandId());
         //4.所有的搜索字段拼接到all中，all存入索引库，并进行分词处理，搜索时与all中的字段进行匹配查询
-        String all = spu.getGoodsName() + categoryNames + brand.getName();
+        String all = spu.getGoodsName() + " " + categoryNames + " " + brand.getName();
 
         //5.查询sku列表
         List<Sku> skus = skuMapper.selectSkusBySpuId(spuId);

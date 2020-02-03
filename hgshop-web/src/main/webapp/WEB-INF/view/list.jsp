@@ -9,10 +9,10 @@
 		<title>商城搜索页</title>
 		<jsp:include page="common.jsp"></jsp:include>
 		<script>
-			function changePic(id,skuId,image){
+			function changePic(id,skuId,image,price){
 				$("#sku" + id + " img").prop('src', image);
-				
 				$("#sku" + id).prop('href', 'page?id='+skuId);
+				$("#price" + id).text(price);
 			}
 		</script>
 	</head>
@@ -74,7 +74,7 @@
 							<a href="javascript:void(0)" onmouseover="changePic(${spu.id},${sku.id},'pic/${sku.image }')"><img src="pic/${sku.image}" style="width:40px;height:40px"></a>
 						</c:forEach>
 						</div>
-						<p><font color="#E4393C" style="font-size:16px">${spu.skuList[0].price }</font></p>
+						<p><font color="#E4393C" style="font-size:16px" id="price${spu.id}">${spu.skuList[0].price/100 }</font></p>
 						<p><a href="page?id=${spu.skuList[0].id}" style='color:#666'>${spu.skuList[0].title }</a></p>
 					</div>
 					</c:forEach>
