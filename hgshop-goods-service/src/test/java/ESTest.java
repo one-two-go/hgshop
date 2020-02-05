@@ -33,9 +33,9 @@ public class ESTest {
 	public void testSearch() {
 		Map<String, String> filter = new HashMap<>();
 		
-		filter.put("categoryId", "1252");
+//		filter.put("categoryId", "1252");
 		
-		Map<String, Object> search = spuService.search("衣服", 1, 3, filter);
+		Map<String, Object> search = spuService.search("男", 1, 3, filter);
 		System.err.println(search);
 		
 	}

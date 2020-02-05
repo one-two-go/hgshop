@@ -90,4 +90,26 @@ public class IndexController {
 		request.setAttribute("keyword", keyword);
 		return "list2";
 	}
+	
+	/**
+	 * 详情页
+	 * @param request
+	 * @param id
+	 * @param optionIds
+	 * @return
+	 */
+	@RequestMapping("/page")
+	public String page(HttpServletRequest request, Integer id, Integer[] optionIds) {
+		Map<String, Object> map = new HashMap<>();
+		if (id != null) {
+			//通过skuId查询
+			map = skuService.getSkuById1(id);
+		} else {
+			//通过规格参数选项ids查询
+			map = skuService.getSkuBySpecOptionIds(optionIds);
+		}
+		
+		request.setAttribute("map", map);
+		return "page";
+	}
 }

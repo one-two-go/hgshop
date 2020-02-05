@@ -124,6 +124,26 @@
 		select id,title,image,price from hg_sku where spu_id=#{spuId}
 	</select>
 	
+	<select id="selectSkuById1" resultMap="skuMap">
+		select k.id,k.title,k.sell_point,k.image,k.price,k.market_price,k.spu_id,ks.spec_option_id,k.stock_count
+		from hg_sku k join hg_sku_spec ks on k.id=ks.sku_id
+		where k.id=#{id}
+	</select>
 	
+	<select id="selectSkuBySpecOptionIds" resultType="sku">
+		select k.id,k.title,k.sell_point,k.image,k.price,k.market_price,k.spu_id,k.stock_count
+		from hg_sku k 
+			<foreach collection="array" index="i">
+				join hg_sku_spec ks${i} ON k.id=ks${i}.sku_id
+			</foreach>
+		<where>
+			<foreach collection="array" index="i" item="id">
+				and ks${i}.spec_option_id=#{id}
+			</foreach>
+		</where>
+	</select>
 	
+	<select id="selectSkuById2" resultType="sku">
+		select id,title,image,price from hg_sku where id=#{id}
+	</select>
 </mapper>

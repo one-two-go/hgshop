@@ -38,5 +38,11 @@ public interface SkuMapper {
 
 	List<Sku> selectSkusBySpuId(Integer spuId);
 
+	Sku selectSkuById1(Integer id);
+
+	Sku selectSkuBySpecOptionIds(Integer[] optionIds);
+
+	Sku selectSkuById2(Integer skuId);
+
 	
 }

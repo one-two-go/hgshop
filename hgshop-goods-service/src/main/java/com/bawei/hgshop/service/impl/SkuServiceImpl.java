@@ -1,5 +1,6 @@
 package com.bawei.hgshop.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -101,5 +102,51 @@ public class SkuServiceImpl implements SkuService {
 	@Override
 	public List<Sku> selectNews(int num) {
 		return skuMapper.selectNews(num);
+	}
+	
+	@Override
+	public Map<String, Object> getSkuById1(Integer id) {
+		Map<String, Object> map = new HashMap<>();
+		
+		//1.根据skuId查询sku信息
+		Sku sku = skuMapper.selectSkuById1(id);
+		//2.根据spuId查询规格参数列表
+		List<Integer> spuIds = new ArrayList<>();
+		spuIds.add(sku.getSpuId());
+		List<Spec> specs = specMapper.selectSpecBySpuIds(spuIds);
+		
+		//3.放到map
+		map.put("sku", sku);
+		map.put("specs", specs);
+		return map;
+	}
+	@Override
+	public Map<String, Object> getSkuBySpecOptionIds(Integer[] optionIds) {
+		Map<String, Object> map = new HashMap<>();
+		//1.获取sku详情
+		Sku sku = skuMapper.selectSkuBySpecOptionIds(optionIds);
+		//一般正常情况下sku不为空,即使没有该规格参数的组合,后台录入时,也会添加一份库存和价格为0的记录
+		//这样处理是为了详情页展示图片及其他相关信息
+		//库存为空，需在页面将规格选项置为禁用状态
+		if (sku == null || sku.getStockCount() == 0) {
+		}
+		List<SkuSpec> skuSpecList = new ArrayList<>();
+		for (int i = 0; i < optionIds.length; i++) {
+			SkuSpec skuSpec = new SkuSpec();
+			skuSpec.setSpecOptionId(optionIds[i]);
+			skuSpecList.add(skuSpec);
+		}
+		sku.setSkuSpec(skuSpecList);
+		//2.根据spu id获取规格参数及规格参数选项信息(查询该商品中有哪些规格参数)
+		List<Integer> spuIds = new ArrayList<>();
+		spuIds.add(sku.getSpuId());	
+		List<Spec> specList = specMapper.selectSpecBySpuIds(spuIds);
+		map.put("sku", sku);
+		map.put("specs", specList);
+		return map;
+	}
+	@Override
+	public Sku getSkuById2(Integer skuId) {
+		return skuMapper.selectSkuById2(skuId);
 	}
 }

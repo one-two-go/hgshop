@@ -69,7 +69,7 @@
 						${map.sku.sellPoint}
 					</div>
 					<div class="price-box" style="margin-top:20px">
-						<span class="price">${map.sku.price}</span>
+						<span class="price">${map.sku.price/100}</span>
 						<del class="price old-price">${map.sku.marketPrice}</del>
 					</div>
 					<hr>

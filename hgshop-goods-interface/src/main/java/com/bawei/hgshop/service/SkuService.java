@@ -18,4 +18,12 @@ public interface SkuService {
 
 	List<Sku> selectNews(int num);
 
+	Map<String, Object> getSkuById1(Integer id);
+
+	Map<String, Object> getSkuBySpecOptionIds(Integer[] optionIds);
+
+	Sku getSkuById2(Integer skuId);
+	
+	
+
 }
