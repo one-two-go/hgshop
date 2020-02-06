@@ -11,8 +11,8 @@
 	</div>
 	<div class="col-md-3" style="padding-top:20px">
 		<ol class="list-inline">
-			<li><a href="login.html">登录</a></li>
-			<li><a href="register.html">注册</a></li>
+			<li id="loginbar"><a href="toLogin">登录</a></li>
+			<li id="registerbar"><a href="toRegister">注册</a></li>
 			<li><a href="cart.html">购物车</a></li>
 			<li><a href="order_list.html">我的订单</a></li>
 		</ol>

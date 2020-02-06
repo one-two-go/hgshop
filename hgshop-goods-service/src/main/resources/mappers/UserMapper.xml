@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.UserMapper">
+
+	<select id="check" resultType="int">
+		select count(0) from hg_user
+		<where>
+			<if test="type==1">
+				and username=#{param}
+			</if>
+			<if test="type==2">
+				and email=#{param}
+			</if>
+			<if test="type==3">
+				and telephone=#{param}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="register">
+		insert into hg_user values (null,#{username},#{password},#{name},#{email},#{telephone},#{birthday},#{sex},0,null)
+	</insert>
+	
+	<select id="getUserBySearch" resultType="user">
+		select * from hg_user where username=#{name} or email=#{name} or telephone=#{name}
+	</select>
+	
+</mapper>
