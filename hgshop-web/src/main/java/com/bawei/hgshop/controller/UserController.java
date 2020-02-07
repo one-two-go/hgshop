@@ -72,6 +72,12 @@ public class UserController {
 		return "login";
 	}
 	
+	/**
+	 * 查询用户名
+	 * @param token
+	 * @param callback
+	 * @return
+	 */
 	@RequestMapping("/token")
 	@ResponseBody
 	public Object getUserByToken(String token, String callback) {

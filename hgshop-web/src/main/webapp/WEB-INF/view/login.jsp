@@ -14,7 +14,6 @@
 		<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
 		<script src="js/bootstrap.min.js" type="text/javascript"></script>
 	
-		<script src="js/custom.js"></script>
 		<style>
 body {
 	margin-top: 20px;
@@ -40,13 +39,15 @@ font {
 }
 </style>
 	<script type="text/javascript">
+		var redirectUrl;
 		$(function(){
-			redirectUrl = '${redirectUrl}';
+			redirectUrl = window.location.search;
+			redirectUrl = redirectUrl.split('redirectUrl=')[1];
 		});
 		function login(){
 			$.post("/login", $("#loginForm").serialize(),function(data){
 				if (data.code == 1000) {
-					if (redirectUrl == '') {
+					if (redirectUrl == undefined) {
 						location.href = "http://localhost:9090";
 					} else {
 						location.href = redirectUrl;
