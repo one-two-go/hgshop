@@ -27,7 +27,7 @@
 				</a>
 			</div>
 			<div class="col-md-6">
-				<form action="list2" method="post">
+				<form action="list" method="post">
 					<div>
 						<input id="search" name="keyword" type="text" width="100%" class="form-control" placeholder="Search" value="${keyword}" onkeyup="searchWord(this)">
 						<!--<div id="showDiv" style="display:none; position:absolute;z-index:1000;background:#fff; width:179px;border:1px solid #ccc;">
