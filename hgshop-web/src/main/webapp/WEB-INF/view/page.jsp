@@ -34,7 +34,7 @@
 			function addCart(){
 				var skuId = ${map.sku.id};
 				var pnum = $('#qty').val();
-				window.location.href='addCart?skuId=' + skuId + '&pnum=' + pnum;
+				window.location.href='cartdb/addCart?skuId=' + skuId + '&pnum=' + pnum;
 			}
 		</script>
 	</head>

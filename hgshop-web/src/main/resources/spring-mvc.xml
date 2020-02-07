@@ -32,6 +32,14 @@
 			value="org.hibernate.validator.HibernateValidator"></property>
 	</bean> -->
 
+	<mvc:interceptors>	
+		<mvc:interceptor>
+			<mvc:mapping path="/cartdb/**"/>
+			<mvc:mapping path="/order/**"/>
+			<bean class="com.bawei.hgshop.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- 应用程序名称 -->
 	<dubbo:application name="hgshop-web" />
 	<!-- 注册中心 -->

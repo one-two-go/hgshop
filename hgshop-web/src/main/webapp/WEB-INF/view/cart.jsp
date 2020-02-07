@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<base href="${pageContext.request.contextPath}/"/>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>商城首页</title>
@@ -11,25 +12,28 @@
 	
 		<script>
 		$(function(){
+			$(':checkbox').prop('checked', true);
+			
 			var total=0;
 			var totalPrice=0;
 			$('.ck').on('click',function(){
 				var id=$(this).val();
 				var pnum=$('#qty'+id).val();
-				var subPrice=$('#sub-price'+id).text();
+				var subPrice=$('#h-sub-price'+id).val();
 				
 				total=parseInt($('#total').text());
-				totalPrice=parseFloat($('#totalPrice').text());
+				totalPrice=parseInt($('#h-totalPrice').val());
 				
 				if(this.checked){
-    				total += parseFloat(pnum);
-    				totalPrice += parseFloat(subPrice);
+    				total += parseInt(pnum);
+    				totalPrice += parseInt(subPrice);
 				}else{
-					total -= parseFloat(pnum);
-    				totalPrice -= parseFloat(subPrice);
+					total -= parseInt(pnum);
+    				totalPrice -= parseInt(subPrice);
 				}
 				$('#total').text(total);
-				$('#totalPrice').text(totalPrice);
+				$('#h-totalPrice').val(totalPrice);
+				$('#totalPrice').text(totalPrice/100);
 			});
     		$('#cbk,#cbk1').on('click',function(){
     			total=0;
@@ -39,57 +43,62 @@
     				if(this.checked){
     					var id=$(this).val();
         				var pnum=$('#qty'+id).val();
-        				var subPrice=$('#sub-price'+id).text();
-        				total += parseFloat(pnum);
-        				totalPrice += parseFloat(subPrice);	
+        				var subPrice=$('#h-sub-price'+id).val();
+        				total += parseInt(pnum);
+        				totalPrice += parseInt(subPrice);	
     				}else{
     					total=0;
     					totalPrice=0;
     				}
     				$('#total').text(total);
-    				$('#totalPrice').text(totalPrice);
+    				$('#h-totalPrice').val(totalPrice);
+    				$('#totalPrice').text(totalPrice/100);
     			});
     		});
     	})
     	function decrement(id){
 			var qty = $("#qty"+id).val();
-			var price = $('#price'+id).text();
+			var price = $('#h-price'+id).val();
 			if(!isNaN(qty) && qty>1){
 				qty--;
 				$("#qty"+id).val(qty);
-				var subPrice = parseFloat(price) * qty;
-				$('#sub-price'+id).text(subPrice);
+				var subPrice = parseInt(price) * qty;
+				$('#h-sub-price'+id).val(subPrice);
+				$('#sub-price'+id).text(subPrice/100);
 				if($('.ck[value="'+id+'"]')[0].checked){
 					total=parseInt($('#total').text());
-					totalPrice=parseFloat($('#totalPrice').text());
+					totalPrice=parseInt($('#h-totalPrice').val());
 					total -= parseInt(1);
-					totalPrice -= parseFloat(price);
+					totalPrice -= parseInt(price);
 					$('#total').text(total);
-    				$('#totalPrice').text(totalPrice);
+					$('#h-totalPrice').val(totalPrice);
+    				$('#totalPrice').text(totalPrice/100);
 				}
-				$.post('updateNum',{id:id,pnum:qty},function(){
+				$.post('cartdb/updateNum',{id:id,pnum:qty},function(){
 				});
 			}
 		}
 		function increment(id){
 			var qty = $("#qty"+id).val();
-			var price = parseFloat($('#price'+id).text());
+			var price = $('#h-price'+id).val();
 			if(!isNaN(qty)){
 				qty++;
 			}
 			$("#qty"+id).val(qty);
-			var subPrice = price * qty;
-			$('#sub-price'+id).text(subPrice);
+			var subPrice = parseInt(price) * qty;
+			$('#h-sub-price'+id).val(subPrice);
+			$('#sub-price'+id).text(subPrice/100);
 
 			if($('.ck[value="'+id+'"]')[0].checked){
 				total=parseInt($('#total').text());
-				totalPrice=parseFloat($('#totalPrice').text());
+				totalPrice=parseInt($('#h-totalPrice').val());
 				total += parseInt(1);
-				totalPrice += parseFloat(price);
+				totalPrice += parseInt(price);
 				$('#total').text(total);
-   				$('#totalPrice').text(totalPrice);
+				$('#h-totalPrice').val(totalPrice);
+   				$('#totalPrice').text(totalPrice/100);
 			}
-			$.post('updateNum',{id:id,pnum:qty},function(){
+			$.post('cartdb/updateNum',{id:id,pnum:qty},function(){
 			});
 		}
     	function deleteCart(ids){
@@ -101,7 +110,7 @@
     		}
     		if(ids!=''){
     			if(confirm('确定要删除选中的数据吗?')){
-    				$.post('deleteCartItems',{ids:ids},function(data){
+    				$.post('cartdb/deleteCartItems',{ids:ids},function(data){
     					if(data){
     	    				window.location.reload();
     	    			}else{
@@ -117,7 +126,7 @@
     		var ids= $('.ck:checked').map(function(){
     			return this.value;
     		}).get().join();
-    		window.location.href='preOrder?ids='+ids;
+    		window.location.href='order/preOrder?ids='+ids;
     	}
 		</script>
 	</head>
@@ -130,7 +139,7 @@
 		<div class="container-fluid" style="margin:5px 15px">
 			<div class="row">
 				<div class="col-md-12">
-					<h2>购物车 ${total}</h2>
+					<h2>购物车 ${total1}</h2>
 				</div>
 			</div>
 			<div class="row cart_list_header">
@@ -148,7 +157,10 @@
 					<div><img src="pic/${cart.image}" width="80px" height="80px" style="float:left"/></div>
 					<div><div class="p-name">${cart.title}</div></div>
 				</div>
-				<div class="col-md-2">￥<span class="price" id="price${cart.id}">${cart.price}</span></div>
+				<div class="col-md-2">￥
+				<input type="hidden" id="h-price${cart.id}" value="${cart.price}">
+				<span class="price" id="price${cart.id}">${cart.price/100}</span>
+				</div>
 				<div class="col-md-2">
 					<div class="custom-qty">
 						<button
@@ -165,7 +177,10 @@
 						</button>
 					</div>
 				</div>
-				<div class="col-md-2">￥<span class="sub-price" id="sub-price${cart.id}">${cart.subPrice}</span></div>
+				<div class="col-md-2">￥
+				<input type="hidden" id="h-sub-price${cart.id}" value="${cart.subPrice}">
+				<span class="sub-price" id="sub-price${cart.id}">${cart.subPrice/100}</span>
+				</div>
 				<div class="col-md-1"><a href="javascript:void(0)" onclick="deleteCart(${cart.id})">删除</a></div>
 			</div>
 			</c:forEach>
@@ -175,12 +190,15 @@
 				<div class="col-md-4">
 					<span><input type="checkbox" id="cbk1">全选</span>
 					<span><a href="javascript:void(0)" onclick="deleteCart()">删除选中商品</a></span>
-					<span><a href="clearCart">清理购物车</a></span>
+					<span><a href="cartdb/clearCart">清理购物车</a></span>
 				</div>
 				<div class="col-md-8">
 					<span style="float:right" class="jiesuan"><a href="javascript:void(0)" class="submit-btn" onclick="preOrder()">去结算</a></span>
-					<span style="float:right">总价: <span style="color:red">￥<span id="totalPrice">0</span></span></span>
-					<span style="float:right">已选择<span style="color:red" id="total">0</span>件商品</span>
+					<span style="float:right">总价: <span style="color:red">￥
+					<input type="hidden" id="h-totalPrice" value="${totalPrice}">
+					<span id="totalPrice">${totalPrice/100}</span>
+					</span></span>
+					<span style="float:right">已选择<span style="color:red" id="total">${total }</span>件商品</span>
 				</div>
 			</div>
 		</div>
