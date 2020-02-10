@@ -45,17 +45,18 @@ public class CartDBController {
 	public String list(HttpServletRequest request, Model model) {
 		Integer totalPrice = 0;
 		Integer total = 0;
-		
+		//①关联查询购物项和商品
 		User user = (User) request.getAttribute("user");
 		Integer userId = user.getUid();
 		List<Cart> list = cartService.list(userId);
+		//②计算total1/total/totalPrice/subPrice
 		for (Cart cart : list) {
-			cart.setSubPrice(cart.getPrice()*cart.getPnum());
+			cart.setSubPrice(cart.getPrice()*cart.getPnum()); //分
 			totalPrice += cart.getSubPrice();
 			total += cart.getPnum();
 		}
 		model.addAttribute("total1", list.size());
-		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("totalPrice", totalPrice); //分
 		model.addAttribute("total", total);
 		model.addAttribute("cartList", list);
 		return "cart";

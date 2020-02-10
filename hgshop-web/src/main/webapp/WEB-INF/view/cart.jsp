@@ -16,6 +16,7 @@
 			
 			var total=0;
 			var totalPrice=0;
+			//每个购物项的复选框选中/不选中
 			$('.ck').on('click',function(){
 				var id=$(this).val();
 				var pnum=$('#qty'+id).val();
@@ -25,9 +26,11 @@
 				totalPrice=parseInt($('#h-totalPrice').val());
 				
 				if(this.checked){
+					//如果该复选框处于勾选状态
     				total += parseInt(pnum);
     				totalPrice += parseInt(subPrice);
 				}else{
+					//如果该复选框处于未勾选状态
 					total -= parseInt(pnum);
     				totalPrice -= parseInt(subPrice);
 				}
@@ -35,20 +38,25 @@
 				$('#h-totalPrice').val(totalPrice);
 				$('#totalPrice').text(totalPrice/100);
 			});
+			//全选/全不选
     		$('#cbk,#cbk1').on('click',function(){
     			total=0;
 				totalPrice=0;
-    			$('.ck').prop('checked', this.checked);
+				//1.各个复选框选中/不选中
+    			$('.ck,#cbk,#cbk1').prop('checked', this.checked);
+				//2.遍历各个复选框
     			$('.ck').map(function(){
     				if(this.checked){
+    				//2.1.如果该复选框处于选中状态
     					var id=$(this).val();
         				var pnum=$('#qty'+id).val();
         				var subPrice=$('#h-sub-price'+id).val();
         				total += parseInt(pnum);
         				totalPrice += parseInt(subPrice);	
     				}else{
-    					total=0;
-    					totalPrice=0;
+    					//2.2.如果该复选框处于未选中状态
+    					//total=0;
+    					//totalPrice=0;
     				}
     				$('#total').text(total);
     				$('#h-totalPrice').val(totalPrice);
@@ -79,27 +87,27 @@
 			}
 		}
 		function increment(id){
-			var qty = $("#qty"+id).val();
-			var price = $('#h-price'+id).val();
+			var qty = $("#qty"+id).val();  //数量输入框的值
+			var price = $('#h-price'+id).val(); //单价隐藏域的值
 			if(!isNaN(qty)){
 				qty++;
+				$("#qty"+id).val(qty);//1.数量输入框的值累加
+				var subPrice = parseInt(price) * qty;
+				$('#h-sub-price'+id).val(subPrice); //2.小计隐藏域的值
+				$('#sub-price'+id).text(subPrice/100); //2.小计显示的值
+				//3.根据复选框是否勾选进行处理，如果勾选状态，累加商品总数/累加总价格
+				if($('.ck[value="'+id+'"]')[0].checked){
+					total=parseInt($('#total').text());  //获取总数
+					totalPrice=parseInt($('#h-totalPrice').val()); //获取总价
+					total += parseInt(1);  //总价+1
+					totalPrice += parseInt(price); //总价+单价
+					$('#total').text(total); //填充总数
+					$('#h-totalPrice').val(totalPrice); //填充总价的隐藏域
+	   				$('#totalPrice').text(totalPrice/100); //填充总价
+				}
+				$.post('cartdb/updateNum',{id:id,pnum:qty},function(){
+				});
 			}
-			$("#qty"+id).val(qty);
-			var subPrice = parseInt(price) * qty;
-			$('#h-sub-price'+id).val(subPrice);
-			$('#sub-price'+id).text(subPrice/100);
-
-			if($('.ck[value="'+id+'"]')[0].checked){
-				total=parseInt($('#total').text());
-				totalPrice=parseInt($('#h-totalPrice').val());
-				total += parseInt(1);
-				totalPrice += parseInt(price);
-				$('#total').text(total);
-				$('#h-totalPrice').val(totalPrice);
-   				$('#totalPrice').text(totalPrice/100);
-			}
-			$.post('cartdb/updateNum',{id:id,pnum:qty},function(){
-			});
 		}
     	function deleteCart(ids){
     		if(ids==undefined){
