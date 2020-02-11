@@ -22,6 +22,8 @@ public interface CartMapper {
 
 	List<Cart> preOrder(@Param("userId")Integer userId, @Param("ids")Integer[] ids);
 
+	void deleteCartItemsBySkuIds(@Param("skuIds")Integer[] skuIds, @Param("userId")Integer userId);
+
 	
 
 }

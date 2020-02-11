@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.hgshop.dao.OrderMapper">
+
+	<insert id="insertOrder">
+		insert into hg_order(order_id,total_price,actual_price,post_fee,payment_type,user_id,status,create_time) 
+		values (#{orderId},#{totalPrice},#{actualPrice},#{postFee},#{paymentType},#{userId},#{status},#{createTime})
+	</insert>
+	
+	<insert id="insertOrderDetail">
+		insert into hg_order_detail(order_id,sku_id,num,title,price,image) 
+		values (#{orderId},#{skuId},#{num},#{title},#{price},#{image})
+	</insert>
+	
+	<resultMap type="order" id="orderMap">
+		<id column="order_id" property="orderId"/>
+		<result column="total_price" property="totalPrice"/>
+		<result column="actual_price" property="actualPrice"/>
+		<result column="post_fee" property="postFee"/>
+		<result column="payment_type" property="paymentType"/>
+		<result column="user_id" property="userId"/>
+		<result column="status" property="status"/>
+		<collection property="orderDetails" javaType="list" ofType="orderDetail">
+			<id column="od_id" property="id"/>
+			<result column="sku_id" property="skuId"/>
+			<result column="num" property="num"/>
+			<result column="title" property="title"/>
+			<result column="price" property="price"/>
+			<result column="image" property="image"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectOrderById" resultMap="orderMap">
+		select o.*,od.id od_id,od.sku_id,od.num,od.title,od.price,od.image
+		from hg_order o join hg_order_detail od on o.order_id=od.order_id
+		where o.order_id=#{id}
+	</select>
+	
+	<select id="selectOrderList" resultType="order">
+		select order_id,total_price,actual_price,post_fee,payment_type,status from hg_order
+		where user_id=#{userId}
+	</select>
+	
+	<select id="selectOrderListBySearch" resultType="order">
+		select distinct o.order_id,o.total_price,o.actual_price,o.post_fee,o.payment_type,o.status,o.create_time from hg_order o
+		join hg_order_detail od on o.order_id=od.order_id
+		<where>
+			<if test="userId!=null and userId!=''">
+				and o.user_id=#{userId}
+			</if>
+			<if test="keyword!=null and keyword!=''">
+				and (o.order_id like concat('%',#{keyword},'%') or od.title like concat('%',#{keyword},'%'))
+			</if>
+		</where>
+		order by o.create_time desc
+	</select>
+	
+	<select id="selectOrderDetailListByOrderId" resultType="orderDetail">
+		select * from hg_order_detail where order_id=#{orderId}
+	</select>
+		
+</mapper>

@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<base href="${pageContext.request.contextPath}/"/>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>我的订单</title>
@@ -22,7 +23,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-offset-9 col-md-3">
-					<form action="myorder" method="post">
+					<form action="order/myorder" method="post">
 						<div style="margin:5px">
 							<input id="search" type="text" name="keyword" width="100%" class="form-control" placeholder="Search" value="${keyword1}">
 						</div>
@@ -38,7 +39,8 @@
 				<div class="col-md-2">全部状态</div>
 				<div class="col-md-1">操作</div>
 			</div>
-			<c:forEach items="${map.items}" var="order">
+			<%-- <c:forEach items="${map.items}" var="order"> --%>
+			<c:forEach items="${pageInfo.list }" var="order">
 			<div class="row order_list_body">
 				<div class="order_list">
 					<div class="col-md-2">${order.createTime}</div>
@@ -58,7 +60,7 @@
 						<div class="p-name">xxx</div>
 					</div>
 					<div class="col-md-2 order_detail">
-						<div class="p-name">总额 ¥${order.actualPrice}</div>
+						<div class="p-name">总额 ¥${order.actualPrice/100}</div>
 					</div>
 					<div class="col-md-2 order_detail">
 						<div class="p-name">

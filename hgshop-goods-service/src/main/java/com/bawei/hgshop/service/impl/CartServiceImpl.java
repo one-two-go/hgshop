@@ -74,4 +74,9 @@ public class CartServiceImpl implements CartService {
 		return cartMapper.preOrder(userId, ids);
 	}
 
+	@Override
+	public void deleteCartItemsBySkuIds(Integer[] skuIds, Integer userId) {
+		cartMapper.deleteCartItemsBySkuIds(skuIds, userId);
+	}
+
 }

@@ -19,4 +19,6 @@ public interface CartService {
 	Cart getCartByKey(Integer userId, Integer skuId);
 
 	List<Cart> preOrder(Integer userId, Integer[] ids);
+
+	void deleteCartItemsBySkuIds(Integer[] skuIds, Integer userId);
 }

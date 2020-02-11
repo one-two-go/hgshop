@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<base href="${pageContext.request.contextPath}/"/>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>结算</title>
@@ -21,7 +22,7 @@
 		<jsp:include page="header.jsp"></jsp:include>			
 
 		<div class="container-fluid" style="margin:5px 15px">
-			<form id="orderForm" action="createOrder" method="post">
+			<form id="orderForm" action="order/createOrder" method="post">
 			<div class="row">
 				<div class="col-md-12">
 					<h5 style="margin-left:-15px">填写并核对订单信息</h5>
@@ -102,7 +103,7 @@
 								</div>
 								<div class="col-md-2">
 									<input type="hidden" name="orderDetails[${index.index}].price" value="${cart.price}"/>
-									<font color="red">￥ ${cart.price}</font>
+									<font color="red">￥ ${cart.price/100}</font>
 								</div>
 								<div class="col-md-1">
 									<input type="hidden" name="orderDetails[${index.index}].num" value="${cart.pnum}"/>
@@ -127,10 +128,10 @@
 				
 				<div class="row" style="margin-bottom:10px">
 					<div class="row">
-						<div class="col-md-2" style="float:right">运费<font color="red">￥${postFee}</font></div>
+						<div class="col-md-2" style="float:right">运费<font color="red">￥${postFee/100}</font></div>
 					</div>
 					<div class="row">
-						<div class="col-md-2" style="float:right">总价<font color="red">￥${totalPrice}</font></div>
+						<div class="col-md-2" style="float:right">总价<font color="red">￥${totalPrice/100}</font></div>
 					</div>
 				</div>
 			</div>
@@ -142,7 +143,7 @@
 			<div class="row cart_list_footer">
 				<div class="col-md-offset-4 col-md-8">
 					<span style="float:right" class="jiesuan"><a href="javascript:void(0)" onclick="createOrder()" class="order-submit-btn">提交订单</a></span>
-					<span style="float:right">实际总价: <span style="color:red">￥${actualPrice}</span></span>
+					<span style="float:right">实际总价: <span style="color:red">￥${actualPrice/100}</span></span>
 					<span style="float:right"><span style="color:red">${total}</span>件商品</span>
 				</div>
 			</div>
