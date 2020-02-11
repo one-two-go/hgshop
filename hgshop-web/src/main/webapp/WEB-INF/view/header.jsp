@@ -13,8 +13,8 @@
 		<ol class="list-inline">
 			<li id="loginbar"><a href="toLogin">登录</a></li>
 			<li id="registerbar"><a href="toRegister">注册</a></li>
-			<li><a href="cart.html">购物车</a></li>
-			<li><a href="order_list.html">我的订单</a></li>
+			<li><a href="cartdb/cartList">购物车</a></li>
+			<li><a href="order/myorder">我的订单</a></li>
 		</ol>
 	</div>
 </div>
@@ -22,7 +22,7 @@
 <div class="container">
 		<div class="row">
 			<div class="col-md-3">
-				<a href="index.html"> 
+				<a href="/"> 
 					<img alt="Shopholic" src="img/logo.png">
 				</a>
 			</div>

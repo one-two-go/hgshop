@@ -183,7 +183,7 @@ font {
 		</ul>
 	</div>
 	<div style="text-align: center;margin-top: 5px;margin-bottom:20px;">
-		Copyright &copy; 2019 八维1706E 版权所有
+		Copyright &copy; 2019 八维 版权所有
 	</div>
 </div>
 			

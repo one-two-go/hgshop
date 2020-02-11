@@ -121,7 +121,7 @@ public class SpuServiceImpl implements SpuService {
 		
 		if (spuIds.size() == 0) return map;
 		
-		//②分页查询sku列表
+		//②分页查询spu列表
 		PageHelper.startPage(pageNum, pageSize);
 		List<Spu> list = spuMapper.selectSpuByIds(spuIds);
 		list.forEach(s -> s.setSkuList(skuMapper.selectSkusBySpuId(s.getId())));

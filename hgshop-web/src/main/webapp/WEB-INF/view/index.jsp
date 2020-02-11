@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -67,7 +67,7 @@
 				<div class="col-md-12">
 					<c:forEach items="${newSkus}" var="sku">
 					<div class="col-md-2" style="text-align:center;height:250px;padding:2px;">
-						<a href="page.html">
+						<a href="page?id=${sku.id }">
 							<img src="pic/${sku.image}" width="100%" height="80%">
 						</a>
 						<p><font color="#E4393C" style="font-size:16px">${sku.price/100 }</font></p>
