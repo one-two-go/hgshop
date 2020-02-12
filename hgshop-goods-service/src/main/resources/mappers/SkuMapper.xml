@@ -116,7 +116,7 @@
 	
 	
 	<select id="selectNews" resultType="sku">
-		select id,title,price,image from hg_sku group by spu_id order by create_time desc limit #{num}
+		select id,title,price,image from (select id,title,price,image,spu_id,create_time from hg_sku  order by create_time desc)a  group by a.spu_id order by create_time desc  limit #{num}
 	</select>
 	
 	
